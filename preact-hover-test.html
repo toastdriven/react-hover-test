@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mouse Events Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body>
+    <div class="mx-auto my-4 bg-gray-100 w-96 h-screen p-4">
+        <h1 class="text-3xl font-bold mb-8">Preact Version</h1>
+
+        <div id="app"></div>
+    </div>
+
+    <script type="module">
+      import { html, render, useState } from 'https://esm.sh/htm/preact/standalone';
+
+      const allOptions = [
+        'One',
+        'Two',
+        'Three',
+      ];
+
+      function App(props) {
+        const [activeOptions, setactiveOptions] = useState([]);
+
+        function handleSelect(optionName) {
+          const newOptions = activeOptions.slice();
+          newOptions.push(optionName);
+          setactiveOptions(newOptions);
+        }
+
+        function handleDeselect(optionName) {
+            const newOptions = [];
+            setactiveOptions(newOptions);
+        }
+
+        return html`
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <h2 class="font-bold text-2xl mb-2">All Options</h2>
+
+              <ul>
+                ${allOptions.map((optionName, offset) => {
+                  return html`<li key=${offset} onMouseEnter=${() => handleSelect(optionName)} onMouseLeave=${handleDeselect}>${optionName}</li>`;
+                })}
+              </ul>
+            </div>
+
+            <div>
+              <h2 class="font-bold text-2xl mb-2">Active Options</h2>
+
+              <ul>
+                ${allOptions.map((optionName, offset) => {
+                  if (activeOptions.indexOf(optionName) >= 0) {
+                    return html`<li key=${offset} className="text-amber-500">${optionName}</li>`;
+                  }
+                  else {
+                    return html`<li key=${offset}>${optionName}</li>`;
+                  }
+                })}
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+
+      render(html`<${App} />`, document.getElementById('app'));
+    </script>
+  </body>
+</html>
