@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import './index.css';
 
 const allOptions = [
@@ -8,21 +8,14 @@ const allOptions = [
 ];
 
 function App() {
-  const [activeOptions, setActiveOptions] = useState([]);
-
-  useEffect(() => {
-    console.log(`Active Options changed to: ${activeOptions.join(', ')}`);
-  }, [activeOptions]);
+  const [activeOption, setActiveOption] = useState([]);
 
   function handleSelect(optionName) {
-    const newOptions = activeOptions.slice();
-    newOptions.push(optionName);
-    setActiveOptions(newOptions);
+    setActiveOption(optionName)
   }
 
   function handleDeselect() {
-    const newOptions = [];
-    setActiveOptions(newOptions);
+    setActiveOption('');
   }
 
   return (
@@ -48,7 +41,7 @@ function App() {
 
         <ul>
           {allOptions.map((optionName, offset) => (
-            (activeOptions.indexOf(optionName) >= 0
+            (activeOption === optionName 
               ? (
                 <li
                   key={offset}
